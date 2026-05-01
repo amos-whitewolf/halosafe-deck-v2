@@ -1,0 +1,5 @@
+.vercel
+shoot.cjs
+*.log
+.DS_Store
+.env*.local

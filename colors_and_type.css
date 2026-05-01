@@ -1,0 +1,130 @@
+/* ==========================================================
+   Halo Safe — Foundation tokens
+   Source of truth: iOS app (Extensions.swift, Typography.swift)
+   cross-referenced with Halo Safe Design System v2.0.
+
+   Drop this into any Halo project. Import once at root.
+   ========================================================== */
+
+/* ----------------------------------------------------------
+   Webfonts — Inter Tight (UI + display) and JetBrains Mono.
+   Apple SF Pro is the on-device fallback (line metrics match).
+   ---------------------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  /* ============================================================
+     1. Brand palette — six tokens. Everything is expressible here.
+     ============================================================ */
+  --halo-primary:   #4A4DFF;   /* haloPrimary    · electric indigo */
+  --halo-dark:      #16007C;   /* haloDark       · deep purple */
+  --halo-accent:    #403EE5;   /* haloAccent     · card titles, child names */
+  --halo-muted:     #C4C5E8;   /* haloMuted      · lavender, disabled, soft info */
+  --halo-bg:        #F0F6F7;   /* haloBackground · cool off-white */
+  --halo-surface:   #FFFFFF;   /* haloSurface    · cards, the only primary surface */
+
+  /* ============================================================
+     2. Gradients — the brand gradient is THE product.
+     ============================================================ */
+  --grad-brand:    linear-gradient(180deg, #16007C 0%, #4A4DFF 100%);
+  --grad-hero:     radial-gradient(ellipse at 20% 0%, #2A15A8 0%, #16007C 38%, #0E0046 100%);
+  --grad-vignette: linear-gradient(180deg, rgba(20,0,45,0.86) 0%, rgba(20,0,45,0.10) 100%);
+
+  /* ============================================================
+     3. Safety semantic — three severities, fixed pairs.
+     ============================================================ */
+  --halo-green-ink:   #1B7A1B;
+  --halo-green-bg:    rgba(52,199,89,0.20);
+  --halo-orange-ink:  #8B4513;
+  --halo-orange-bg:   rgba(255,159,10,0.25);
+  --halo-red-ink:     #FFFFFF;
+  --halo-red-bg:      rgba(255,59,48,0.85);
+  --halo-destructive: #D14A4A;   /* destructive label color, never fill */
+
+  /* ============================================================
+     4. Typography
+     ============================================================ */
+  --font-brand: 'Inter Tight', system-ui, -apple-system, "SF Pro", sans-serif;
+  --font-mono:  'JetBrains Mono', ui-monospace, monospace;
+
+  /* Display */
+  --type-display:    700 56px/60px var(--font-brand);
+  --type-title-1:    700 34px/38px var(--font-brand);
+  --type-title-2:    600 28px/32px var(--font-brand);
+  --type-headline:   600 22px/26px var(--font-brand);
+
+  /* Reading */
+  --type-body:       400 17px/24px var(--font-brand);
+  --type-callout:    600 17px/22px var(--font-brand);
+  --type-caption:    600 13px/18px var(--font-brand);
+  --type-mono:       500 14px/18px var(--font-mono);
+
+  /* Tracking — applied on display sizes ≥ 22px */
+  --track-tight:     -0.025em;
+  --track-wordmark:  -0.03em;
+
+  /* ============================================================
+     5. Spacing — strict 4pt grid. No half-steps.
+     ============================================================ */
+  --space-xs:    4px;
+  --space-sm:    8px;
+  --space-md:   16px;
+  --space-lg:   24px;
+  --space-xl:   32px;
+  --space-2xl:  48px;
+  --space-3xl:  64px;
+
+  /* ============================================================
+     6. Radius — default is xl (24px). When in doubt, use 24.
+     ============================================================ */
+  --radius-sm:     8px;     /* chips, tags */
+  --radius-md:    12px;     /* inputs, small buttons */
+  --radius-lg:    20px;     /* HaloButton */
+  --radius-xl:    24px;     /* cards (default) */
+  --radius-2xl:   32px;     /* sheets, hero blocks */
+  --radius-full: 9999px;    /* orb, status pills */
+
+  /* ============================================================
+     7. Shadow — pick one per element. Cards on light need heavier.
+     ============================================================ */
+  --shadow-card:     0 4px 12px rgba(0,0,0,0.08);
+  --shadow-card-lg:  0 8px 24px rgba(0,0,0,0.15);
+  --shadow-float:    0 20px 60px -10px rgba(22,0,124,0.45);
+
+  /* ============================================================
+     8. Motion — restrained. Halo is not a game.
+     ============================================================ */
+  --motion-fast:  120ms;
+  --motion-base:  240ms;
+  --motion-slow:  480ms;
+  --ease-out:     cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-in-out:  cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ============================================================
+   Semantic role classes — drop these on elements directly.
+   ============================================================ */
+
+.halo-display    { font: var(--type-display);  letter-spacing: var(--track-tight); }
+.halo-title-1    { font: var(--type-title-1);  letter-spacing: var(--track-tight); }
+.halo-title-2    { font: var(--type-title-2);  letter-spacing: var(--track-tight); }
+.halo-headline   { font: var(--type-headline); letter-spacing: var(--track-tight); }
+.halo-body       { font: var(--type-body); }
+.halo-callout    { font: var(--type-callout); }
+.halo-caption    { font: var(--type-caption); color: var(--halo-muted); }
+.halo-mono       { font: var(--type-mono); }
+
+/* Wordmark — when set in type (use the SVG asset where possible) */
+.halo-wordmark   { font: 600 var(--wm-size, 32px)/1 var(--font-brand);
+                   letter-spacing: var(--track-wordmark); }
+
+/* Body defaults: pretty wrapping, no shouting */
+body {
+  font: var(--type-body);
+  text-wrap: pretty;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Halo never shouts. */
+* { text-transform: none; }
+.halo-mono, [data-mono] { /* mono labels in chrome are the only allowed exception */ }

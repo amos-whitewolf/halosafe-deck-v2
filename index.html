@@ -1,0 +1,2362 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Halo Safe · The conversations your kid won't tell you about. Halo hears them.</title>
+<meta name="description" content="On-device voice safety for Roblox, Fortnite, Minecraft and Discord — on iPhone, Mac, and PC. Halo only speaks up when something matters. Free 14-day trial, no card required." />
+<link rel="stylesheet" href="colors_and_type.css" />
+<style>
+/* ============================================================
+   FOUNDATION
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: #0E0046;
+  color: var(--halo-surface);
+  font: var(--type-body);
+  text-wrap: pretty;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; border: 0; cursor: pointer; background: none; color: inherit; }
+
+/* ============================================================
+   PAGE GRID — every section a "slide" with its own chrome.
+   Mono lockup top-left, locator top-right, page foot
+   ============================================================ */
+.section {
+  position: relative;
+  padding: 140px 0;
+  overflow: hidden;
+}
+.section.gradient { background: var(--grad-brand); color: var(--halo-surface); }
+.section.dark     { background: var(--grad-hero); color: var(--halo-surface); }
+.section.lavender { background: var(--halo-muted); color: var(--halo-dark); }
+.section.bg       { background: var(--halo-bg); color: var(--halo-dark); }
+.section.surface  { background: var(--halo-surface); color: var(--halo-dark); }
+
+.wrap {
+  width: 100%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 80px;
+  position: relative;
+  z-index: 2;
+}
+@media (max-width: 920px) { .wrap { padding: 0 32px; } }
+@media (max-width: 720px) { .wrap { padding: 0 24px; } }
+
+/* Slide chrome (deck-style mono labels) */
+.chrome {
+  display: flex; justify-content: space-between; align-items: center;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  margin-bottom: 80px;
+  opacity: 0.7;
+}
+.section.gradient .chrome,
+.section.dark .chrome    { color: rgba(255,255,255,0.65); }
+.section.lavender .chrome,
+.section.bg .chrome,
+.section.surface .chrome { color: rgba(22,0,124,0.55); }
+
+.chrome .lockup { display: inline-flex; align-items: center; gap: 14px; }
+.chrome .lockup img { height: 18px; width: auto; }
+.chrome .lockup .sys { opacity: 0.55; }
+
+/* Eyebrow with dot — deck pattern */
+.eyebrow {
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  display: inline-flex; align-items: center; gap: 14px;
+  margin: 0 0 32px;
+}
+.eyebrow::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%;
+  background: currentColor;
+}
+.section.gradient .eyebrow,
+.section.dark .eyebrow { color: rgba(255,255,255,0.7); }
+.section.lavender .eyebrow,
+.section.bg .eyebrow,
+.section.surface .eyebrow { color: rgba(22,0,124,0.55); }
+
+/* ============================================================
+   NAV — quiet, mono lockup, single CTA
+   ============================================================ */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  height: 76px;
+  background: rgba(14,0,70,0.55);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.nav-inner {
+  max-width: 1320px; margin: 0 auto;
+  padding: 0 80px;
+  height: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+}
+@media (max-width: 920px) { .nav-inner { padding: 0 32px; } }
+@media (max-width: 720px) { .nav-inner { padding: 0 24px; } }
+
+.nav .brand { display: inline-flex; align-items: center; gap: 14px; }
+.nav .brand img { height: 22px; width: auto; }
+.nav .brand .tag {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  padding-left: 14px;
+  border-left: 1px solid rgba(255,255,255,0.18);
+}
+@media (max-width: 720px) { .nav .brand .tag { display: none; } }
+
+.nav-links { display: flex; gap: 36px; align-items: center; }
+.nav-links a {
+  font: 500 14px/1 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.72);
+  transition: color 120ms var(--ease-out);
+}
+.nav-links a:hover { color: #fff; }
+@media (max-width: 880px) { .nav-links .nav-link { display: none; } }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: 10px;
+  height: 56px; padding: 0 28px;
+  border-radius: var(--radius-lg);
+  font: 600 16px/1 var(--font-brand);
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+  transition: filter 160ms var(--ease-out), transform 120ms var(--ease-out);
+}
+.btn:active { transform: scale(0.98); }
+.btn-primary { background: #FFFFFF; color: var(--halo-accent); }
+.btn-primary:hover { filter: brightness(0.96); }
+.btn-light { background: var(--halo-accent); color: #FFFFFF; }
+.btn-light:hover { filter: brightness(1.06); }
+.btn-ghost {
+  background: transparent;
+  color: var(--halo-surface);
+  border: 1px solid rgba(255,255,255,0.28);
+}
+.btn-ghost:hover { background: rgba(255,255,255,0.08); }
+.btn-sm { height: 44px; padding: 0 18px; font-size: 14px; gap: 8px; }
+.btn .arrow {
+  display: inline-block; transition: transform 200ms var(--ease-out);
+}
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ============================================================
+   HERO — deck cover language
+   Massive editorial h1 left, hero orb right, mono meta floor
+   ============================================================ */
+.hero {
+  position: relative;
+  background: var(--grad-hero);
+  color: var(--halo-surface);
+  padding: 200px 0 140px;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 85% 50%, rgba(74,77,255,0.45) 0%, transparent 50%),
+    radial-gradient(ellipse at 15% 100%, rgba(192,195,232,0.08) 0%, transparent 50%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.hero::after {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.025) 1px, transparent 0);
+  background-size: 3px 3px;
+  pointer-events: none;
+}
+
+.hero-status {
+  display: inline-flex; align-items: center; gap: 12px; white-space: nowrap;
+  padding: 10px 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.08em; color: rgba(255,255,255,0.85);
+  margin-bottom: 56px;
+}
+.hero-status .dot {
+  width: 8px; height: 8px; border-radius: 50%; background: #34C759;
+  box-shadow: 0 0 0 3px rgba(52,199,89,0.25);
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 80px;
+  align-items: center;
+}
+@media (max-width: 1100px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 64px; }
+}
+
+.hero h1 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(56px, 9vw, 132px);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  margin: 0;
+  color: #FFFFFF;
+}
+.hero h1 .quiet {
+  font-weight: 500;
+  background: linear-gradient(90deg, #FFFFFF 0%, var(--halo-muted) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.hero .lede {
+  margin-top: 40px;
+  font: 400 clamp(20px, 1.7vw, 26px)/1.45 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.78);
+  max-width: 580px;
+}
+
+.hero-cta {
+  margin-top: 56px;
+  display: flex; gap: 16px; flex-wrap: wrap;
+  align-items: center;
+}
+.hero-cta .ios-note {
+  font: 500 12px/1.4 var(--font-mono);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-left: 8px;
+}
+.hero-microline {
+  margin: 18px 0 0;
+  font: 400 13px/1.5 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.55);
+}
+
+/* Hero orb stage */
+.hero-orb-stage {
+  position: relative;
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+}
+.hero-orb {
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  background: url('assets/orb.png') center/cover;
+  box-shadow:
+    0 0 140px 40px rgba(74,77,255,0.40),
+    0 0 0 1px rgba(255,255,255,0.08);
+  animation: orb-breathe 14s var(--ease-in-out) infinite;
+}
+@keyframes orb-breathe {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.015); }
+}
+.hero-orb-stage::before {
+  content: ""; position: absolute; inset: -10%;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.06);
+  pointer-events: none;
+}
+.hero-orb-stage::after {
+  content: ""; position: absolute; inset: -22%;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.03);
+  pointer-events: none;
+}
+
+/* Hero meta floor — deck cover pattern */
+.hero-meta {
+  position: relative; z-index: 2;
+  margin-top: 120px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.10);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 48px;
+  font-family: var(--font-mono);
+}
+@media (max-width: 920px) { .hero-meta { grid-template-columns: repeat(2, 1fr); gap: 32px; } }
+.hero-meta .k {
+  font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45); margin-bottom: 10px;
+}
+.hero-meta .v {
+  font-size: 15px; color: rgba(255,255,255,0.92);
+  letter-spacing: 0.02em;
+}
+
+.hero-foot {
+  position: absolute; left: 0; right: 0; bottom: 32px;
+  z-index: 3; pointer-events: none;
+  display: flex; justify-content: space-between;
+  padding: 0 80px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+@media (max-width: 920px) { .hero-foot { padding: 0 32px; } }
+
+/* ============================================================
+   SECTION 02 · MISSION — deck slide 2 language
+   Big editorial pull-quote, attribution row beneath
+   ============================================================ */
+.s-mission {
+  background: var(--grad-brand);
+  position: relative;
+}
+.s-mission::after {
+  content: ""; position: absolute;
+  right: -240px; bottom: -240px;
+  width: 720px; height: 720px;
+  background: url('assets/orb.png') center/cover;
+  border-radius: 50%;
+  opacity: 0.20;
+  filter: blur(2px);
+  pointer-events: none;
+}
+.s-mission .pull {
+  font-family: var(--font-brand);
+  font-weight: 500;
+  font-size: clamp(40px, 6.5vw, 96px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: rgba(255,255,255,0.5);
+  max-width: 1100px;
+  margin: 0 0 80px;
+}
+.s-mission .pull em {
+  font-style: normal; font-weight: 600; color: #FFFFFF;
+}
+
+.s-mission .attribution {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  max-width: 900px;
+}
+@media (max-width: 720px) { .s-mission .attribution { grid-template-columns: 1fr; gap: 32px; } }
+.s-mission .attribution .k {
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 14px;
+}
+.s-mission .attribution .v {
+  font: 400 20px/1.45 var(--font-brand);
+  color: rgba(255,255,255,0.92);
+  letter-spacing: -0.005em;
+}
+
+/* ============================================================
+   SECTION 03 · STATS — typographic, no card chrome
+   ============================================================ */
+.s-stats {
+  background: var(--halo-bg); color: var(--halo-dark);
+}
+.stats-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border-top: 1px solid rgba(22,0,124,0.15);
+}
+@media (max-width: 720px) { .stats-grid { grid-template-columns: 1fr; } }
+.stat {
+  padding: 56px 32px;
+  border-right: 1px solid rgba(22,0,124,0.15);
+  border-bottom: 1px solid rgba(22,0,124,0.15);
+}
+@media (max-width: 720px) { .stat { border-right: 0; } }
+.stat:last-child { border-right: 0; }
+.stat .num {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(56px, 7vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--halo-dark);
+  margin-bottom: 20px;
+}
+.stat .num .unit {
+  font-size: 0.4em; font-weight: 500;
+  color: var(--halo-accent);
+  margin-left: 8px;
+  letter-spacing: -0.01em;
+}
+.stat .label {
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(22,0,124,0.55);
+  margin-bottom: 14px;
+}
+.stat .desc {
+  font: 400 16px/1.5 var(--font-brand);
+  color: rgba(22,0,124,0.75);
+  letter-spacing: -0.005em;
+  max-width: 320px;
+}
+
+/* ============================================================
+   SECTION 04 · HOW IT LISTENS — three-rule grid (deck slide 11 language)
+   ============================================================ */
+.s-how {
+  background: var(--grad-brand); color: var(--halo-surface);
+}
+.s-how .head h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(48px, 6vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0 0 32px;
+  max-width: 1000px;
+}
+.s-how .head h2 em {
+  font-style: normal;
+  background: linear-gradient(90deg, #FFFFFF 0%, var(--halo-muted) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.s-how .head .lede {
+  font: 400 22px/1.5 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.78);
+  max-width: 640px;
+  margin-bottom: 96px;
+}
+
+.rules {
+  display: grid; grid-template-columns: 1fr; gap: 0;
+  max-width: 980px;
+}
+.rules .rule {
+  display: grid; grid-template-columns: 64px 1fr;
+  gap: 24px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  align-items: baseline;
+}
+.rules .rule:first-child { border-top: 1px solid rgba(255,255,255,0.15); }
+.rules .rule .n {
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.14em; color: rgba(255,255,255,0.5);
+}
+.rules .rule .t {
+  font: 400 22px/1.45 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.95);
+  max-width: 760px;
+}
+.rules .rule .t b { color: #FFFFFF; font-weight: 600; }
+
+/* ============================================================
+   SECTION 05 · THE FLAG (deck slide 13 — exact reproduction)
+   ============================================================ */
+.s-flag {
+  background: var(--halo-bg); color: var(--halo-dark);
+}
+.s-flag .head h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0 0 28px;
+  color: var(--halo-dark);
+  max-width: 900px;
+}
+.s-flag .head .lede {
+  font: 400 22px/1.55 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(22,0,124,0.7);
+  max-width: 680px;
+  margin: 0 0 80px;
+}
+
+.flag-stage {
+  display: grid; grid-template-columns: 1.05fr 0.95fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 1000px) { .flag-stage { grid-template-columns: 1fr; gap: 48px; } }
+
+.flag-card {
+  background: #FFFFFF;
+  border-radius: 32px;
+  padding: 40px;
+  box-shadow: var(--shadow-float);
+}
+.flag-card .severity {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: #FFF4F4;
+  color: var(--halo-destructive);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font: 600 13px/1 var(--font-brand);
+  letter-spacing: 0.02em;
+  margin-bottom: 32px;
+}
+.flag-card .severity .dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--halo-destructive);
+}
+.flag-card .who {
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.06em;
+  color: rgba(22,0,124,0.55);
+  margin-bottom: 16px;
+}
+.flag-card h3 {
+  font-family: var(--font-brand);
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  color: var(--halo-dark);
+  margin: 0 0 24px;
+}
+.flag-card .transcript {
+  background: #FFF4F4;
+  border-radius: 16px;
+  padding: 18px 22px;
+  font: 500 16px/1.45 var(--font-brand);
+  color: var(--halo-destructive);
+  letter-spacing: -0.005em;
+  margin-bottom: 28px;
+}
+.flag-card .meta-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-top: 1px solid rgba(22,0,124,0.10);
+  border-bottom: 1px solid rgba(22,0,124,0.10);
+  margin-bottom: 28px;
+}
+.flag-card .meta-grid .k {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(22,0,124,0.5);
+  margin-bottom: 8px;
+}
+.flag-card .meta-grid .v {
+  font: 600 16px/1.3 var(--font-brand);
+  color: var(--halo-accent);
+  letter-spacing: -0.005em;
+}
+.flag-card .actions {
+  display: flex; gap: 12px; flex-wrap: wrap;
+}
+.flag-card .actions .b {
+  flex: 1; min-width: 0;
+  height: 52px; padding: 0 20px;
+  border-radius: 16px;
+  background: var(--halo-accent);
+  color: #FFFFFF;
+  font: 600 15px/1 var(--font-brand);
+  letter-spacing: -0.01em;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.flag-card .actions .b.secondary {
+  background: var(--halo-bg);
+  color: var(--halo-dark);
+}
+
+/* Flag anatomy column on right */
+.flag-anatomy {
+  padding-top: 8px;
+}
+.flag-anatomy .label {
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(22,0,124,0.5);
+  margin-bottom: 32px;
+}
+.flag-anatomy .row {
+  display: grid; grid-template-columns: 120px 1fr;
+  gap: 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(22,0,124,0.12);
+}
+.flag-anatomy .row:first-of-type { border-top: 1px solid rgba(22,0,124,0.12); }
+.flag-anatomy .row .k {
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--halo-accent);
+}
+.flag-anatomy .row .v {
+  font: 400 16px/1.45 var(--font-brand);
+  color: rgba(22,0,124,0.85);
+  letter-spacing: -0.005em;
+}
+.flag-anatomy .row .v b { color: var(--halo-dark); font-weight: 600; }
+
+/* ============================================================
+   SECTION 06 · QUIET (lavender slide language — deck slide 5)
+   ============================================================ */
+.s-quiet {
+  background: var(--halo-muted); color: var(--halo-dark);
+}
+.quiet-grid {
+  display: grid; grid-template-columns: 1.1fr 1fr;
+  gap: 96px;
+  align-items: center;
+}
+@media (max-width: 1000px) {
+  .quiet-grid { grid-template-columns: 1fr; gap: 48px; }
+}
+.s-quiet h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(56px, 8vw, 120px);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  color: var(--halo-dark);
+  margin: 0 0 32px;
+}
+.s-quiet h2 em { font-style: normal; opacity: 0.5; }
+.s-quiet .copy {
+  font: 400 22px/1.55 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(22,0,124,0.8);
+  max-width: 560px;
+}
+.s-quiet .copy + .copy { margin-top: 20px; }
+
+.quiet-demo {
+  background: #FFFFFF;
+  border-radius: 32px;
+  padding: 32px 36px;
+  box-shadow: 0 30px 80px -20px rgba(22,0,124,0.35);
+}
+.quiet-demo .demo-label {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(22,0,124,0.5);
+  margin-bottom: 24px;
+}
+.quiet-demo .greet {
+  font: 600 32px/1.1 var(--font-brand);
+  letter-spacing: -0.025em;
+  color: var(--halo-accent);
+  margin-bottom: 6px;
+}
+.quiet-demo .sub {
+  font: 500 14px/1.4 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: var(--halo-muted);
+  margin-bottom: 24px;
+}
+.quiet-demo .quiet-card {
+  background: var(--halo-bg);
+  border-radius: 20px;
+  padding: 22px;
+  margin-bottom: 16px;
+}
+.quiet-demo .quiet-card .lg {
+  font: 600 22px/1.2 var(--font-brand);
+  letter-spacing: -0.02em;
+  color: var(--halo-accent);
+  margin-bottom: 4px;
+}
+.quiet-demo .quiet-card .sm {
+  font: 500 13px/1.4 var(--font-mono);
+  letter-spacing: 0.02em;
+  color: rgba(22,0,124,0.55);
+}
+.quiet-demo .device {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--halo-muted);
+}
+.quiet-demo .device:last-child { border-bottom: 0; }
+.quiet-demo .device .av {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--halo-muted);
+  flex-shrink: 0;
+}
+.quiet-demo .device .text { flex: 1; min-width: 0; }
+.quiet-demo .device .name {
+  font: 600 16px/1.2 var(--font-brand);
+  color: var(--halo-accent);
+  letter-spacing: -0.01em;
+}
+.quiet-demo .device .meta {
+  font: 500 13px/1.3 var(--font-mono);
+  color: rgba(22,0,124,0.5);
+  letter-spacing: 0.02em;
+  margin-top: 2px;
+}
+.quiet-demo .device .status {
+  font: 600 12px/1 var(--font-brand);
+  color: var(--halo-green-ink);
+  background: var(--halo-green-bg);
+  padding: 6px 10px;
+  border-radius: 999px;
+}
+
+/* ============================================================
+   SECTION 07 · COVERAGE — typographic platforms (NO fake logos)
+   ============================================================ */
+.s-coverage {
+  background: var(--grad-brand); color: var(--halo-surface);
+  position: relative; overflow: hidden;
+}
+.s-coverage::after {
+  content: ""; position: absolute;
+  right: -200px; top: -200px;
+  width: 600px; height: 600px;
+  background: url('assets/orb.png') center/cover;
+  border-radius: 50%;
+  opacity: 0.18;
+  filter: blur(1px);
+  pointer-events: none;
+}
+
+.coverage-head {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  margin-bottom: 96px;
+  align-items: end;
+}
+@media (max-width: 900px) { .coverage-head { grid-template-columns: 1fr; gap: 32px; } }
+.coverage-head h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0;
+  max-width: 760px;
+}
+.coverage-head h2 em {
+  font-style: normal;
+  background: linear-gradient(90deg, #FFFFFF 0%, var(--halo-muted) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.coverage-head .note {
+  font: 400 18px/1.55 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.78);
+  max-width: 460px;
+}
+
+.platforms {
+  border-top: 1px solid rgba(255,255,255,0.18);
+}
+.platforms .p {
+  display: grid;
+  grid-template-columns: 64px 1fr auto auto;
+  gap: 32px;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.18);
+  align-items: baseline;
+}
+@media (max-width: 720px) {
+  .platforms .p {
+    grid-template-columns: 48px 1fr auto;
+  }
+  .platforms .p .age { display: none; }
+}
+.platforms .p .n {
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.14em; color: rgba(255,255,255,0.5);
+}
+.platforms .p .name {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(28px, 3vw, 44px);
+  letter-spacing: -0.025em;
+  color: #FFFFFF;
+}
+.platforms .p .desc {
+  font: 400 16px/1.4 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.65);
+  margin-top: 4px;
+  max-width: 420px;
+}
+.platforms .p .age {
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.08em;
+  color: rgba(255,255,255,0.55);
+}
+.platforms .p .live {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+}
+.platforms .p .live .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #34C759; box-shadow: 0 0 8px rgba(52,199,89,0.7);
+}
+
+/* ============================================================
+   SECTION 08 · VOICE & TONE (deck slide 14 — yes/no columns)
+   ============================================================ */
+.s-voice {
+  background: var(--halo-bg); color: var(--halo-dark);
+}
+.s-voice .head h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(48px, 7vw, 96px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0 0 32px;
+  color: var(--halo-dark);
+  max-width: 900px;
+}
+.s-voice .head h2 em { font-style: normal; opacity: 0.5; }
+.s-voice .head .lede {
+  font: 400 22px/1.5 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(22,0,124,0.7);
+  max-width: 680px;
+  margin: 0 0 96px;
+}
+
+.voice-cols {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+@media (max-width: 900px) { .voice-cols { grid-template-columns: 1fr; } }
+
+.voice-col {
+  background: #FFFFFF;
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: var(--shadow-card);
+}
+.voice-col.no { background: rgba(255,244,244,0.8); }
+.voice-col .head-row {
+  display: flex; align-items: center; gap: 12px;
+  font: 600 14px/1 var(--font-brand);
+  letter-spacing: 0.02em;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(22,0,124,0.1);
+}
+.voice-col.yes .head-row { color: var(--halo-green-ink); }
+.voice-col.no .head-row { color: var(--halo-destructive); }
+.voice-col .head-row .mark {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 14px;
+}
+.voice-col.yes .head-row .mark { background: var(--halo-green-bg); }
+.voice-col.no .head-row .mark { background: rgba(209,74,74,0.15); }
+
+.voice-col .q {
+  font: 500 18px/1.5 var(--font-brand);
+  letter-spacing: -0.005em;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(22,0,124,0.06);
+}
+.voice-col .q:last-child { border-bottom: 0; padding-bottom: 0; }
+.voice-col.yes .q { color: var(--halo-dark); }
+.voice-col.no .q { color: rgba(22,0,124,0.55); }
+
+/* ============================================================
+   SECTION 09 · PRIVACY (deck slide 11 rules language)
+   ============================================================ */
+.s-privacy {
+  background: var(--grad-brand); color: var(--halo-surface);
+}
+.privacy-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+@media (max-width: 900px) { .privacy-grid { grid-template-columns: 1fr; gap: 48px; } }
+.s-privacy h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(48px, 6.5vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0 0 28px;
+}
+.s-privacy h2 em {
+  font-style: normal;
+  background: linear-gradient(90deg, #FFFFFF 0%, var(--halo-muted) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.s-privacy .lede {
+  font: 400 20px/1.55 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.85);
+  max-width: 540px;
+}
+
+.privacy-rules .rule {
+  display: grid; grid-template-columns: 64px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  align-items: baseline;
+}
+.privacy-rules .rule:first-child { border-top: 1px solid rgba(255,255,255,0.15); }
+.privacy-rules .rule .n {
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.14em; color: rgba(255,255,255,0.5);
+}
+.privacy-rules .rule .t {
+  font: 400 18px/1.5 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.95);
+}
+.privacy-rules .rule .t b { color: #FFFFFF; font-weight: 600; }
+
+/* ============================================================
+   SECTION 10 · PRICING (deck card language)
+   ============================================================ */
+.s-pricing {
+  background: var(--halo-bg); color: var(--halo-dark);
+}
+.s-pricing .head { text-align: center; margin-bottom: 80px; }
+.s-pricing .head h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(48px, 6.5vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0 0 24px;
+  color: var(--halo-dark);
+}
+.s-pricing .head .lede {
+  font: 400 20px/1.55 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(22,0,124,0.7);
+  max-width: 540px;
+  margin: 0 auto;
+}
+
+.pricing-card {
+  background: #FFFFFF;
+  border-radius: 32px;
+  padding: 56px;
+  box-shadow: var(--shadow-float);
+  max-width: 720px;
+  margin: 0 auto;
+  position: relative;
+}
+@media (max-width: 720px) { .pricing-card { padding: 36px; } }
+
+.pricing-card .ribbon {
+  position: absolute; top: 24px; right: 24px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--halo-accent);
+  background: rgba(64,62,229,0.10);
+  padding: 8px 14px;
+  border-radius: 999px;
+}
+.pricing-card .name {
+  font: 500 12px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(22,0,124,0.55);
+  margin-bottom: 20px;
+}
+.pricing-card .price-row {
+  display: flex; align-items: baseline; gap: 10px;
+  margin-bottom: 32px;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(22,0,124,0.1);
+}
+.pricing-card .price {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(56px, 7vw, 88px);
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--halo-dark);
+}
+.pricing-card .per {
+  font: 500 16px/1 var(--font-mono);
+  letter-spacing: 0.02em;
+  color: rgba(22,0,124,0.55);
+}
+.pricing-card ul {
+  list-style: none; padding: 0; margin: 0 0 36px;
+  display: grid; gap: 14px;
+}
+.pricing-card li {
+  display: grid; grid-template-columns: 24px 1fr;
+  gap: 12px;
+  font: 400 17px/1.45 var(--font-brand);
+  color: var(--halo-dark);
+  letter-spacing: -0.005em;
+}
+.pricing-card li .check {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--halo-green-bg); color: var(--halo-green-ink);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700;
+}
+.pricing-card .btn {
+  width: 100%;
+}
+.pricing-card .small {
+  margin-top: 20px;
+  font: 500 12px/1.4 var(--font-mono);
+  letter-spacing: 0.06em;
+  color: rgba(22,0,124,0.5);
+  text-align: center;
+}
+
+/* ============================================================
+   SECTION 11 · FAQ (typographic, no card chrome)
+   ============================================================ */
+.s-faq {
+  background: var(--halo-surface); color: var(--halo-dark);
+}
+.s-faq .head h2 {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(48px, 7vw, 88px);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  margin: 0 0 80px;
+  color: var(--halo-dark);
+}
+.faq-list {
+  border-top: 1px solid rgba(22,0,124,0.15);
+}
+.faq-item {
+  border-bottom: 1px solid rgba(22,0,124,0.15);
+}
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 32px 0;
+  display: grid; grid-template-columns: 64px 1fr 32px;
+  gap: 24px;
+  align-items: baseline;
+  transition: opacity 120ms var(--ease-out);
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary:hover { opacity: 0.75; }
+.faq-item .n {
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.14em;
+  color: rgba(22,0,124,0.5);
+}
+.faq-item .q {
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(20px, 2vw, 26px);
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: var(--halo-dark);
+}
+.faq-item .ico {
+  width: 32px; height: 32px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font: 400 22px/1 var(--font-brand);
+  color: var(--halo-accent);
+  transition: transform 200ms var(--ease-out);
+}
+.faq-item[open] .ico { transform: rotate(45deg); }
+.faq-item .answer {
+  padding: 0 0 32px 88px;
+  font: 400 18px/1.55 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(22,0,124,0.75);
+  max-width: 760px;
+}
+@media (max-width: 720px) {
+  .faq-item summary { grid-template-columns: 32px 1fr 24px; gap: 16px; }
+  .faq-item .answer { padding-left: 48px; }
+}
+
+/* ============================================================
+   SECTION 12 · CTA (deck cover-language farewell)
+   ============================================================ */
+.s-cta {
+  background: var(--grad-hero); color: var(--halo-surface);
+  text-align: center;
+  padding: 160px 0 140px;
+  position: relative; overflow: hidden;
+}
+.s-cta::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 100%, rgba(74,77,255,0.40) 0%, transparent 60%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.s-cta-orb {
+  width: 200px; height: 200px;
+  background: url('assets/orb.png') center/cover;
+  border-radius: 50%;
+  margin: 0 auto 56px;
+  box-shadow: 0 0 80px 24px rgba(74,77,255,0.4), 0 0 0 1px rgba(255,255,255,0.08);
+  animation: orb-breathe 14s var(--ease-in-out) infinite;
+  position: relative; z-index: 2;
+}
+.s-cta h2 {
+  position: relative; z-index: 2;
+  font-family: var(--font-brand);
+  font-weight: 600;
+  font-size: clamp(56px, 8vw, 120px);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
+  margin: 0 auto 32px;
+  max-width: 1100px;
+}
+.s-cta h2 em {
+  font-style: normal;
+  background: linear-gradient(90deg, #FFFFFF 0%, var(--halo-muted) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.s-cta .lede {
+  position: relative; z-index: 2;
+  font: 400 22px/1.45 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.75);
+  max-width: 560px;
+  margin: 0 auto 56px;
+}
+.s-cta-actions {
+  position: relative; z-index: 2;
+  display: flex; gap: 16px; justify-content: center; flex-wrap: wrap;
+}
+
+/* ============================================================
+   v2: BLIND SPOT (reframe slide before stats)
+   ============================================================ */
+.s-blindspot { background: var(--halo-bg); color: var(--halo-dark); }
+.s-blindspot .head { max-width: 980px; margin-bottom: 80px; }
+.s-blindspot .head h2 {
+  font: 600 clamp(44px, 6vw, 84px) / 0.98 var(--font-brand);
+  letter-spacing: -0.025em;
+  margin: 0 0 32px;
+}
+.s-blindspot .head h2 em {
+  font-style: normal;
+  background: var(--grad-brand);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.s-blindspot .head .lede {
+  font: 400 22px/1.5 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(22,0,124,0.75);
+  max-width: 720px;
+}
+.bs-ladder {
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  border-top: 1px solid rgba(22,0,124,0.14);
+  padding-top: 56px;
+}
+@media (max-width: 920px) { .bs-ladder { grid-template-columns: 1fr 1fr; gap: 40px; } }
+@media (max-width: 560px) { .bs-ladder { grid-template-columns: 1fr; } }
+.bs-cell .lab {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(22,0,124,0.45);
+  margin-bottom: 18px;
+}
+.bs-cell .what {
+  font: 600 24px/1.2 var(--font-brand);
+  letter-spacing: -0.015em;
+  color: var(--halo-dark);
+  margin-bottom: 12px;
+}
+.bs-cell .gap {
+  font: 400 16px/1.55 var(--font-brand);
+  color: rgba(22,0,124,0.65);
+}
+.bs-cell.bs-halo .what {
+  background: var(--grad-brand);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.bs-cell.bs-halo .gap { color: var(--halo-accent); font-weight: 500; }
+
+/* ============================================================
+   v2: COMPARISON TABLE (slide between Coverage and Voice)
+   ============================================================ */
+.s-compare { background: var(--halo-surface); color: var(--halo-dark); }
+.s-compare .head { text-align: center; margin: 0 auto 80px; max-width: 880px; }
+.s-compare .head h2 {
+  font: 600 clamp(44px, 6vw, 80px) / 1 var(--font-brand);
+  letter-spacing: -0.025em;
+  margin: 0 0 24px;
+}
+.s-compare .head h2 em {
+  font-style: normal;
+  background: var(--grad-brand);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.s-compare .head .lede {
+  font: 400 20px/1.5 var(--font-brand);
+  color: rgba(22,0,124,0.7);
+  letter-spacing: -0.005em;
+}
+.cmp-table {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  border-collapse: separate; border-spacing: 0;
+  font: 400 16px/1.4 var(--font-brand);
+}
+.cmp-table thead th {
+  text-align: center;
+  padding: 24px 16px 20px;
+  border-bottom: 1px solid rgba(22,0,124,0.12);
+  font: 500 11px/1.2 var(--font-mono);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(22,0,124,0.55);
+  vertical-align: middle;
+}
+.cmp-table thead th:first-child { text-align: left; padding-left: 0; }
+.cmp-table thead th.is-halo {
+  font: 600 16px/1.2 var(--font-brand);
+  letter-spacing: -0.01em; text-transform: none;
+  background: var(--grad-brand);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.cmp-table tbody td {
+  padding: 22px 16px;
+  border-bottom: 1px solid rgba(22,0,124,0.08);
+  text-align: center;
+  vertical-align: middle;
+}
+.cmp-table tbody td:first-child {
+  text-align: left; padding-left: 0;
+  color: var(--halo-dark);
+  font-weight: 500;
+}
+.cmp-table tbody tr:last-child td { border-bottom: 0; }
+.cmp-yes {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--grad-brand); color: #fff;
+  font: 600 14px/1 var(--font-brand);
+}
+.cmp-no { color: rgba(22,0,124,0.30); font-size: 18px; }
+.cmp-partial {
+  font: 500 13px/1 var(--font-mono);
+  color: rgba(22,0,124,0.55);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cmp-table tbody td.is-halo {
+  background: rgba(74,77,255,0.04);
+  border-bottom-color: rgba(74,77,255,0.10);
+}
+.s-compare .footnote {
+  text-align: center;
+  margin: 40px auto 0;
+  max-width: 720px;
+  font: 400 13px/1.5 var(--font-brand);
+  color: rgba(22,0,124,0.45);
+}
+
+/* ============================================================
+   v2: FOUNDER NOTE (between Privacy and Pricing)
+   ============================================================ */
+.s-founder { background: var(--grad-hero); color: var(--halo-surface); }
+.s-founder::before {
+  content: ""; position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse at 100% 50%, rgba(74,77,255,0.35) 0%, transparent 55%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+.s-founder .grid {
+  display: grid;
+  grid-template-columns: 1fr 1.15fr;
+  gap: 80px;
+  align-items: center;
+  position: relative; z-index: 2;
+}
+@media (max-width: 920px) { .s-founder .grid { grid-template-columns: 1fr; gap: 48px; } }
+.s-founder .photo {
+  width: 100%;
+  max-width: 460px;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-2xl);
+  background:
+    linear-gradient(180deg, rgba(74,77,255,0.20) 0%, rgba(20,0,45,0.65) 100%),
+    radial-gradient(circle at 30% 30%, rgba(192,195,232,0.32) 0%, transparent 60%),
+    var(--halo-dark);
+  border: 1px solid rgba(255,255,255,0.10);
+  display: flex; align-items: flex-end; padding: 32px;
+  position: relative;
+  overflow: hidden;
+}
+.s-founder .photo::after {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(circle at 1px 1px, rgba(255,255,255,0.05) 1px, transparent 0);
+  background-size: 4px 4px;
+}
+.s-founder .photo .signature {
+  position: relative; z-index: 2;
+  font: 500 11px/1.4 var(--font-mono);
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: rgba(255,255,255,0.7);
+}
+.s-founder .photo .signature strong {
+  display: block;
+  font: 600 28px/1.1 var(--font-brand);
+  letter-spacing: -0.02em;
+  color: #fff;
+  text-transform: none;
+  margin-bottom: 8px;
+}
+.s-founder h2 {
+  font: 600 clamp(36px, 5vw, 64px) / 1.04 var(--font-brand);
+  letter-spacing: -0.025em;
+  margin: 0 0 32px;
+}
+.s-founder h2 em {
+  font-style: normal;
+  background: linear-gradient(90deg, #FFFFFF 0%, var(--halo-muted) 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.s-founder .body p {
+  font: 400 19px/1.55 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(255,255,255,0.78);
+  margin: 0 0 20px;
+}
+.s-founder .body p:last-child { margin-bottom: 0; }
+.s-founder .credit {
+  margin-top: 32px;
+  display: flex; align-items: center; gap: 14px;
+  font: 500 13px/1 var(--font-mono);
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: rgba(255,255,255,0.55);
+}
+.s-founder .credit::before {
+  content: ""; width: 32px; height: 1px; background: rgba(255,255,255,0.4);
+}
+
+/* ============================================================
+   v2: PRICING ANCHOR + RISK REVERSAL
+   ============================================================ */
+.pricing-anchor {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 18px 24px;
+  margin: 0 0 28px;
+  border: 1px dashed rgba(22,0,124,0.18);
+  border-radius: 12px;
+  background: rgba(74,77,255,0.04);
+  font: 500 13px/1.4 var(--font-brand);
+  color: rgba(22,0,124,0.65);
+  letter-spacing: -0.005em;
+}
+.pricing-anchor .anchor-num {
+  font: 600 13px/1 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: rgba(22,0,124,0.45);
+}
+.pricing-anchor .vs {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(22,0,124,0.35);
+  margin: 0 12px;
+}
+.pricing-anchor strong {
+  font: 600 13px/1 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: var(--halo-accent);
+}
+.risk-reversal-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid rgba(22,0,124,0.10);
+}
+@media (max-width: 720px) { .risk-reversal-row { grid-template-columns: 1fr 1fr; } }
+.risk-reversal-row .rr {
+  display: flex; align-items: center; gap: 10px;
+  font: 500 12px/1.3 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(22,0,124,0.65);
+}
+.risk-reversal-row .rr svg { flex-shrink: 0; }
+.guarantee-block {
+  margin-top: 32px;
+  padding: 24px;
+  border-radius: 16px;
+  background: rgba(74,77,255,0.06);
+  border: 1px solid rgba(74,77,255,0.14);
+  display: flex; align-items: flex-start; gap: 16px;
+  text-align: left;
+}
+.guarantee-block .seal {
+  flex-shrink: 0;
+  width: 52px; height: 52px; border-radius: 50%;
+  background: var(--grad-brand);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font: 600 16px/1 var(--font-brand);
+}
+.guarantee-block .copy {
+  font: 400 14px/1.5 var(--font-brand);
+  color: rgba(22,0,124,0.78);
+  letter-spacing: -0.005em;
+}
+.guarantee-block .copy strong {
+  display: block;
+  font: 600 15px/1.3 var(--font-brand);
+  color: var(--halo-dark);
+  margin-bottom: 6px;
+}
+
+/* ============================================================
+   v2: STICKY MOBILE CTA
+   ============================================================ */
+.sticky-cta {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 80;
+  display: none;
+  padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+  background: rgba(14,0,70,0.92);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border-top: 1px solid rgba(255,255,255,0.10);
+  align-items: center; justify-content: space-between; gap: 12px;
+}
+.sticky-cta .label {
+  font: 500 12px/1.3 var(--font-brand);
+  color: rgba(255,255,255,0.75);
+  letter-spacing: -0.005em;
+}
+.sticky-cta .label strong {
+  display: block;
+  font: 600 13px/1.2 var(--font-brand);
+  color: #fff; margin-bottom: 2px;
+}
+.sticky-cta .btn { height: 44px; padding: 0 18px; font-size: 14px; }
+@media (max-width: 720px) { .sticky-cta { display: flex; } body.has-sticky { padding-bottom: 76px; } }
+
+/* ============================================================
+   FOOTER (deck-foot pattern)
+   ============================================================ */
+.footer {
+  background: #0E0046; color: rgba(255,255,255,0.85);
+  padding: 80px 0 56px;
+}
+.footer-row {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 64px;
+  padding-bottom: 56px;
+  border-bottom: 1px solid rgba(255,255,255,0.10);
+}
+@media (max-width: 900px) { .footer-row { grid-template-columns: 1fr 1fr; gap: 40px; } }
+@media (max-width: 600px) { .footer-row { grid-template-columns: 1fr; } }
+
+.footer .brand img { height: 24px; width: auto; margin-bottom: 16px; }
+.footer .brand .tag {
+  font: 400 15px/1.5 var(--font-brand);
+  color: rgba(255,255,255,0.6);
+  max-width: 320px;
+  letter-spacing: -0.005em;
+}
+.footer h4 {
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.18em; text-transform: uppercase;
+  color: rgba(255,255,255,0.45);
+  margin: 0 0 20px;
+}
+.footer ul {
+  list-style: none; padding: 0; margin: 0;
+  display: grid; gap: 12px;
+}
+.footer ul a {
+  font: 500 14px/1.4 var(--font-brand);
+  color: rgba(255,255,255,0.78);
+  letter-spacing: -0.005em;
+}
+.footer ul a:hover { color: #FFFFFF; }
+
+.footer-foot {
+  margin-top: 32px;
+  display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgba(255,255,255,0.4);
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+     ============================================================ -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="#" class="brand" aria-label="Halo Safe — home">
+      <img src="assets/logo-white.svg" alt="Halo" />
+      <span class="tag">Voice safety · iPhone · Mac · PC</span>
+    </a>
+    <div class="nav-links">
+      <a href="#mission" class="nav-link">Why Halo</a>
+      <a href="#how" class="nav-link">How it works</a>
+      <a href="#privacy" class="nav-link">Privacy</a>
+      <a href="#pricing" class="nav-link">Pricing</a>
+      <a href="https://apps.apple.com/au/app/halo-safe/id6756702314" class="btn btn-light btn-sm">Start free trial<span class="arrow">→</span></a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero" data-screen-label="01 Hero">
+  <div class="wrap">
+
+    <div class="hero-status">
+      <span class="dot"></span>
+      <span>Live on the App Store · iPhone · Mac · Windows</span>
+    </div>
+
+    <div class="hero-grid">
+      <div>
+        <h1>The conversations<br/>your kid won't<br/>tell you about.<br/><span class="quiet">Halo hears them.</span></h1>
+        <p class="lede">On-device voice safety for Roblox, Fortnite, Minecraft and Discord. Halo listens for grooming, bullying and threats — and only speaks up when something matters. The rest of the time, you don't hear from us.</p>
+        <div class="hero-cta">
+          <a href="https://apps.apple.com/au/app/halo-safe/id6756702314" class="btn btn-primary">Start free 14-day trial<span class="arrow">→</span></a>
+          <a href="#how" class="btn btn-ghost">How it works</a>
+        </div>
+        <p class="hero-microline">No card required. Cancel any time. We delete everything within 24h.</p>
+      </div>
+
+      <div class="hero-orb-stage" aria-hidden="true">
+        <div class="hero-orb"></div>
+      </div>
+    </div>
+
+    <div class="hero-meta">
+      <div><div class="k">Built for</div><div class="v">Parents of 7–14</div></div>
+      <div><div class="k">Watching</div><div class="v">Voice chat only</div></div>
+      <div><div class="k">Platforms</div><div class="v">Roblox · Fortnite · Minecraft · Discord</div></div>
+      <div><div class="k">Available</div><div class="v">iOS · Mac · Windows</div></div>
+    </div>
+  </div>
+
+  <div class="hero-foot">
+    <span>HS · GAMING SAFETY · 2026</span>
+    <span>halosafe.app</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 02 · MISSION
+     ============================================================ -->
+<section class="section s-mission" id="mission" data-screen-label="02 Mission">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-white.svg" alt="Halo" /><span class="sys">Why Halo</span></span>
+      <span>01 · Why Halo</span>
+    </div>
+
+    <p class="eyebrow">Why we exist</p>
+    <p class="pull">
+      A child's safety<br/>shouldn't depend<br/>on a parent's<br/><em>vigilance.</em>
+    </p>
+
+    <div class="attribution">
+      <div>
+        <div class="k">The problem</div>
+        <div class="v">Voice chat is where the worst conversations happen. Kids won't repeat them. Parents can't hear them. Most safety tools watch text — Halo listens to what's said out loud.</div>
+      </div>
+      <div>
+        <div class="k">The promise</div>
+        <div class="v">Parents see what matters. Kids don't see Halo at all unless something goes wrong. No transcripts. No recordings. No surveillance theatre.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 03 · STATS
+     ============================================================ -->
+<section class="section s-stats" data-screen-label="03 Stats">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">Why now</span></span>
+      <span>02 · The ground</span>
+    </div>
+
+    <p class="eyebrow">Why now</p>
+
+    <div class="stats-grid">
+      <div class="stat">
+        <div class="label">Kids on voice chat</div>
+        <div class="num">73<span class="unit">%</span></div>
+        <div class="desc">of 8–12 year-olds in online games use voice chat at least weekly.</div>
+      </div>
+      <div class="stat">
+        <div class="label">What parents hear</div>
+        <div class="num">1<span class="unit">in 4</span></div>
+        <div class="desc">tell their parents when a stranger says something inappropriate. The rest say nothing.</div>
+      </div>
+      <div class="stat">
+        <div class="label">Where it happens</div>
+        <div class="num">4</div>
+        <div class="desc">platforms account for almost all of it — Roblox, Fortnite, Minecraft and Discord. Halo covers all four.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     v2: BLIND SPOT (insert)
+     ============================================================ -->
+<section class="section s-blindspot" data-screen-label="04 Blind spot">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">The blind spot</span></span>
+      <span>03 · Why nothing else catches it</span>
+    </div>
+
+    <div class="head">
+      <p class="eyebrow">The blind spot</p>
+      <h2>Voice chat is where<br/>the worst conversations happen.<br/><em>Nothing else listens.</em></h2>
+      <p class="lede">Every parental control your kid has been on watches text or counts hours. Bark. Qustodio. Apple Screen Time. None of them hear what was actually said in voice chat — and voice chat is now the dominant way kids talk on Roblox, Fortnite, Minecraft and Discord.</p>
+    </div>
+
+    <div class="bs-ladder">
+      <div class="bs-cell">
+        <div class="lab">Bark</div>
+        <div class="what">Watches text</div>
+        <div class="gap">Misses every voice call. The conversation that matters most happens with the mic open, not the keyboard.</div>
+      </div>
+      <div class="bs-cell">
+        <div class="lab">Qustodio</div>
+        <div class="what">Watches apps</div>
+        <div class="gap">Tells you the app was open for 47 minutes. Doesn't tell you what was said inside it.</div>
+      </div>
+      <div class="bs-cell">
+        <div class="lab">Apple Screen Time</div>
+        <div class="what">Counts hours</div>
+        <div class="gap">A timer, not a safety tool. By the time it kicks in, the conversation is already over.</div>
+      </div>
+      <div class="bs-cell bs-halo">
+        <div class="lab">Halo</div>
+        <div class="what">Listens to voice chat</div>
+        <div class="gap">On-device, in real time. The first parental tool that actually hears what's being said to your kid — and only speaks up when it matters.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 04 · HOW IT WORKS
+     ============================================================ -->
+<section class="section s-how" id="how" data-screen-label="05 How">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-white.svg" alt="Halo" /><span class="sys">Mechanism</span></span>
+      <span>04 · How it listens</span>
+    </div>
+
+    <div class="head">
+      <p class="eyebrow">How Halo listens</p>
+      <h2>Halo runs on the device.<br/><em>Not in the cloud.</em></h2>
+      <p class="lede">Voice is processed on-device, in real time, while your child is playing. Nothing leaves the phone unless something is flagged — and then only the moment that matters.</p>
+    </div>
+
+    <div class="rules">
+      <div class="rule">
+        <div class="n">01</div>
+        <div class="t">Halo joins the call as a passive listener. <b>It hears voice chat the same way your child's friends do.</b></div>
+      </div>
+      <div class="rule">
+        <div class="n">02</div>
+        <div class="t">Audio is transcribed and analyzed on the device, never streamed. <b>Words leave the phone only when a flag is created.</b></div>
+      </div>
+      <div class="rule">
+        <div class="n">03</div>
+        <div class="t">When a real risk is detected, you get a single push notification. <b>Severity, what was said, and what to do next.</b></div>
+      </div>
+      <div class="rule">
+        <div class="n">04</div>
+        <div class="t">When nothing is happening, Halo says so. <b>"All quiet" is the most common state.</b></div>
+      </div>
+      <div class="rule">
+        <div class="n">05</div>
+        <div class="t">Your child can't see Halo. <b>No icon on the home screen. No sound. No interruption.</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 05 · THE FLAG
+     ============================================================ -->
+<section class="section s-flag" data-screen-label="05 Flag">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">The flag</span></span>
+      <span>05 · When it matters</span>
+    </div>
+
+    <div class="head">
+      <p class="eyebrow">When something happens</p>
+      <h2>This is what you'll see.</h2>
+      <p class="lede">A flag is the rare thing Halo exists for. One severity. One headline. One line from the conversation. Two buttons. We don't bury what matters in a feed.</p>
+    </div>
+
+    <div class="flag-stage">
+      <div class="flag-card" role="figure" aria-label="Example flag — Liam, last night">
+        <div class="severity"><span class="dot"></span>Immediate attention</div>
+        <div class="who">Liam · yesterday, 7:42 PM</div>
+        <h3>Someone asked Liam for a photo of his face. He said no.</h3>
+        <div class="transcript">"Hey, can I see what you look like? Just send a quick selfie, it's cool."</div>
+        <div class="meta-grid">
+          <div><div class="k">Platform</div><div class="v">Fortnite voice party</div></div>
+          <div><div class="k">Other party</div><div class="v">Unfamiliar account</div></div>
+        </div>
+        <div class="actions">
+          <button class="b">Listen to moment</button>
+          <button class="b secondary">Talk to Liam</button>
+        </div>
+      </div>
+
+      <div class="flag-anatomy">
+        <div class="label">Anatomy of a flag</div>
+        <div class="row">
+          <div class="k">severity</div>
+          <div class="v">One pill, one color. Red is reserved for things that need a parent <b>now</b>.</div>
+        </div>
+        <div class="row">
+          <div class="k">headline</div>
+          <div class="v">Plain language. <b>Past tense.</b> What actually happened, not what we detected.</div>
+        </div>
+        <div class="row">
+          <div class="k">transcript</div>
+          <div class="v">One line maximum. The exact words, in quotes. <b>Never paraphrased.</b></div>
+        </div>
+        <div class="row">
+          <div class="k">context</div>
+          <div class="v">Platform, time, and other party. Enough to act on. <b>No more than that.</b></div>
+        </div>
+        <div class="row">
+          <div class="k">actions</div>
+          <div class="v">Listen to the moment. Talk to your kid. <b>Two buttons. Always.</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 06 · QUIET (LAVENDER)
+     ============================================================ -->
+<section class="section s-quiet" data-screen-label="06 Quiet">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">All quiet</span></span>
+      <span>06 · The default state</span>
+    </div>
+
+    <div class="quiet-grid">
+      <div>
+        <p class="eyebrow">The default state</p>
+        <h2>Most of the time,<br/><em>nothing happens.</em></h2>
+        <p class="copy">That's the point. A safety tool that buzzes all day teaches you to ignore it. Halo's home screen is the same boring "all quiet" 99% of the time — and that's the data you actually need.</p>
+        <p class="copy">When something is wrong, you'll know immediately. Until then, we stay out of your day.</p>
+      </div>
+
+      <div class="quiet-demo" role="figure" aria-label="Parent home — quiet state">
+        <div class="demo-label">Parent home — Tuesday, 8:14 AM</div>
+        <div class="greet">Morning, Sam.</div>
+        <div class="sub">All quiet across 3 devices · 14h 22m</div>
+        <div class="quiet-card">
+          <div class="lg">0 flags today</div>
+          <div class="sm">Last check 2 minutes ago</div>
+        </div>
+        <div class="device">
+          <div class="av"></div>
+          <div class="text">
+            <div class="name">Liam</div>
+            <div class="meta">Fortnite · 42 min today</div>
+          </div>
+          <div class="status">Active</div>
+        </div>
+        <div class="device">
+          <div class="av"></div>
+          <div class="text">
+            <div class="name">Sofia</div>
+            <div class="meta">Roblox · 18 min today</div>
+          </div>
+          <div class="status">Active</div>
+        </div>
+        <div class="device">
+          <div class="av"></div>
+          <div class="text">
+            <div class="name">Jax</div>
+            <div class="meta">Not online today</div>
+          </div>
+          <div class="status" style="color: var(--halo-muted); background: transparent;">Idle</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 07 · COVERAGE
+     ============================================================ -->
+<section class="section s-coverage" data-screen-label="07 Coverage">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-white.svg" alt="Halo" /><span class="sys">Where it works</span></span>
+      <span>07 · Coverage</span>
+    </div>
+
+    <div class="coverage-head">
+      <h2>Three platforms.<br/><em>That's where the kids are.</em></h2>
+      <p class="note">We focused Halo on the games where most of the harm happens. Other platforms are on the roadmap — but only when we can do them as well as we do these.</p>
+    </div>
+
+    <div class="platforms">
+      <div class="p">
+        <div class="n">01</div>
+        <div>
+          <div class="name">Roblox</div>
+          <div class="desc">Voice chat in experiences. Party chat. The biggest surface area for kids 8–12.</div>
+        </div>
+        <div class="age">Ages 6+</div>
+        <div class="live"><span class="dot"></span>Live</div>
+      </div>
+      <div class="p">
+        <div class="n">02</div>
+        <div>
+          <div class="name">Fortnite</div>
+          <div class="desc">Squad voice chat, party chat across modes. Where the most strangers join.</div>
+        </div>
+        <div class="age">Ages 13+</div>
+        <div class="live"><span class="dot"></span>Live</div>
+      </div>
+      <div class="p">
+        <div class="n">03</div>
+        <div>
+          <div class="name">Minecraft</div>
+          <div class="desc">Realm voice and connected server voice chat. Smaller groups, longer sessions.</div>
+        </div>
+        <div class="age">Ages 6+</div>
+        <div class="live"><span class="dot"></span>Live</div>
+      </div>
+      <div class="p">
+        <div class="n">04</div>
+        <div>
+          <div class="name">Discord</div>
+          <div class="desc">Servers and DMs on Mac & Windows. iPhone listens to Discord voice in supported games.</div>
+        </div>
+        <div class="age">Ages 13+</div>
+        <div class="live"><span class="dot"></span>Live · Mac/PC</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     v2: COMPARISON TABLE (insert)
+     ============================================================ -->
+<section class="section s-compare" data-screen-label="08 Versus">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">vs everything else</span></span>
+      <span>08 · Versus</span>
+    </div>
+
+    <div class="head">
+      <p class="eyebrow" style="justify-content: center;">vs everything else</p>
+      <h2>The only one that <em>listens.</em></h2>
+      <p class="lede">Most parental controls were built before voice chat was the thing. Halo was built because it is.</p>
+    </div>
+
+    <table class="cmp-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="is-halo">Halo</th>
+          <th>Bark</th>
+          <th>Qustodio</th>
+          <th>Screen&nbsp;Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Listens to in-game voice chat</td>
+          <td class="is-halo"><span class="cmp-yes">✓</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-no">—</span></td>
+        </tr>
+        <tr>
+          <td>Roblox · Fortnite · Minecraft · Discord</td>
+          <td class="is-halo"><span class="cmp-yes">✓</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-no">—</span></td>
+        </tr>
+        <tr>
+          <td>On-device processing (no cloud upload)</td>
+          <td class="is-halo"><span class="cmp-yes">✓</span></td>
+          <td><span class="cmp-partial">Partial</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td>iPhone <span style="opacity:.5">·</span> Mac <span style="opacity:.5">·</span> Windows</td>
+          <td class="is-halo"><span class="cmp-yes">✓</span></td>
+          <td><span class="cmp-partial">iOS+Android</span></td>
+          <td><span class="cmp-partial">iOS+Android</span></td>
+          <td><span class="cmp-partial">Apple only</span></td>
+        </tr>
+        <tr>
+          <td>Silent until something matters</td>
+          <td class="is-halo"><span class="cmp-yes">✓</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-no">n/a</span></td>
+        </tr>
+        <tr>
+          <td>Invisible to the kid</td>
+          <td class="is-halo"><span class="cmp-yes">✓</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-no">—</span></td>
+          <td><span class="cmp-no">—</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="footnote">Comparison reflects publicly available product capabilities at time of writing. Halo doesn't replace these tools — it covers the surface they can't.</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 08 · VOICE & TONE
+     ============================================================ -->
+<section class="section s-voice" data-screen-label="09 Voice">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">How Halo talks</span></span>
+      <span>09 · Voice &amp; tone</span>
+    </div>
+
+    <div class="head">
+      <p class="eyebrow">How Halo talks to you</p>
+      <h2>Calm, clear,<br/><em>never alarmed.</em></h2>
+      <p class="lede">We write the way you'd talk to a tired parent at 9pm. Short sentences. Real words. No security jargon, no scaremongering, no cute. The parent is already worried — we don't turn the volume up.</p>
+    </div>
+
+    <div class="voice-cols">
+      <div class="voice-col yes">
+        <div class="head-row"><span class="mark">✓</span>Halo says it like this</div>
+        <div class="q">"All quiet across 3 devices · 14h 22m"</div>
+        <div class="q">"Someone asked Liam for a photo of his face. He said no."</div>
+        <div class="q">"Nothing to flag in this session. Last check 2 minutes ago."</div>
+        <div class="q">"Liam played Fortnite for 42 minutes. He's offline now."</div>
+      </div>
+      <div class="voice-col no">
+        <div class="head-row"><span class="mark">✕</span>Halo never says</div>
+        <div class="q">"No threats detected. System operational."</div>
+        <div class="q">"Potentially inappropriate interaction flagged for review."</div>
+        <div class="q">"⚠️ ALERT: Suspicious activity!"</div>
+        <div class="q">"✨ Your little one is safe and sound! ✨"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 09 · PRIVACY
+     ============================================================ -->
+<section class="section s-privacy" id="privacy" data-screen-label="09 Privacy">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-white.svg" alt="Halo" /><span class="sys">What we keep</span></span>
+      <span>10 · Privacy</span>
+    </div>
+
+    <div class="privacy-grid">
+      <div>
+        <p class="eyebrow">What we don't keep</p>
+        <h2>The less Halo<br/>knows, the better.<br/><em>By design.</em></h2>
+        <p class="lede">Privacy isn't a switch in settings — it's the architecture. Voice never leaves the phone. We don't have it. We can't share what we don't have.</p>
+      </div>
+
+      <div class="privacy-rules">
+        <div class="rule">
+          <div class="n">01</div>
+          <div class="t">Voice chat is processed on the device. <b>Audio never leaves the phone.</b></div>
+        </div>
+        <div class="rule">
+          <div class="n">02</div>
+          <div class="t">When a flag is created, only the moment that triggered it is uploaded. <b>Not the session. Not the day.</b></div>
+        </div>
+        <div class="rule">
+          <div class="n">03</div>
+          <div class="t">No recordings of "everything just in case." <b>We don't have a transcript of yesterday.</b></div>
+        </div>
+        <div class="rule">
+          <div class="n">04</div>
+          <div class="t">No data is shared with third parties. <b>No ads. No analytics resale. Nothing.</b></div>
+        </div>
+        <div class="rule">
+          <div class="n">05</div>
+          <div class="t">When you delete the app, everything tied to your account goes. <b>Within 24 hours.</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     v2: FOUNDER NOTE (insert)
+     ============================================================ -->
+<section class="section s-founder" data-screen-label="11 Founder">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-white.svg" alt="Halo" /><span class="sys">From the founder</span></span>
+      <span>11 · Why I built this</span>
+    </div>
+
+    <div class="grid">
+      <div class="photo">
+        <div class="signature">
+          <strong>Amos Whitewolf</strong>
+          Founder · Halo Safe
+        </div>
+      </div>
+
+      <div class="body">
+        <p class="eyebrow">A note from the founder</p>
+        <h2>I'm a parent. I built Halo because I couldn't <em>find one that listened.</em></h2>
+        <p>I looked at Bark, Qustodio, Apple Screen Time, every parental control on the market — and not one of them heard what was actually being said to my kid in voice chat. The tools watched text he never opened and counted hours on apps that don't matter.</p>
+        <p>So I built the thing I wanted to install on my own son's phone: a quiet net that listens on the device, never streams to the cloud, and only fires when something genuinely warrants a parent's attention.</p>
+        <p>If Halo isn't for you, that's fair — uninstall and we delete everything within 24 hours. If it is, you'll know the next time it matters.</p>
+        <div class="credit">Halo · 2026 · Built in Australia</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 12 · PRICING
+     ============================================================ -->
+<section class="section s-pricing" id="pricing" data-screen-label="12 Pricing">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">One plan</span></span>
+      <span>12 · Pricing</span>
+    </div>
+
+    <div class="head">
+      <p class="eyebrow" style="justify-content: center;">One plan, every device in your family</p>
+      <h2>Pricing.</h2>
+      <p class="lede">14 days free. Cancel any time. One subscription covers every child in the family across iPhone, Mac and Windows.</p>
+    </div>
+
+    <div class="pricing-card">
+      <span class="ribbon">14-day free trial · No card</span>
+      <div class="name">Halo Family</div>
+
+      <div class="pricing-anchor">
+        <span><span class="anchor-num">$200/hr</span> · One therapy session after an incident</span>
+        <span class="vs">vs</span>
+        <span><strong>$99.99/yr</strong> · A whole year of Halo</span>
+      </div>
+
+      <div class="price-row">
+        <span class="price">$99.99</span>
+        <span class="per">/ year · per family · about $8.33/month</span>
+      </div>
+
+      <ul>
+        <li><span class="check">✓</span><span>Roblox, Fortnite, Minecraft &amp; Discord voice chat</span></li>
+        <li><span class="check">✓</span><span>iPhone, Mac &amp; Windows — every device in the family</span></li>
+        <li><span class="check">✓</span><span>Up to 6 children, unlimited devices each</span></li>
+        <li><span class="check">✓</span><span>On-device processing. No voice ever leaves the phone</span></li>
+        <li><span class="check">✓</span><span>Fewer than 1% of sessions get a flag — real signal, not noise</span></li>
+      </ul>
+
+      <a href="https://apps.apple.com/au/app/halo-safe/id6756702314" class="btn btn-light">Start free 14-day trial<span class="arrow">→</span></a>
+
+      <div class="risk-reversal-row">
+        <div class="rr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l3.5 3.5L14 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>No credit card</div>
+        <div class="rr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l3.5 3.5L14 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Cancel any time</div>
+        <div class="rr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l3.5 3.5L14 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Deleted within 24h</div>
+        <div class="rr"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8l3.5 3.5L14 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Family-wide cover</div>
+      </div>
+
+      <div class="guarantee-block">
+        <div class="seal">60d</div>
+        <div class="copy">
+          <strong>The 60-day quiet guarantee.</strong>
+          If after 60 days Halo hasn't shown you anything that needed your attention, email us — we'll refund the full year. The point is peace of mind, not another recurring charge.
+        </div>
+      </div>
+
+      <div class="small">No credit card required for the trial · Annual subscription only · Available on iPhone, Mac and Windows</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 11 · FAQ
+     ============================================================ -->
+<section class="section s-faq" data-screen-label="13 FAQ">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">Honest answers</span></span>
+      <span>13 · FAQ</span>
+    </div>
+
+    <div class="head">
+      <p class="eyebrow">Honest answers</p>
+      <h2>Questions parents ask.</h2>
+    </div>
+
+    <div class="faq-list">
+      <details class="faq-item" open>
+        <summary>
+          <span class="n">01</span>
+          <span class="q">Is $99.99 a year actually worth it?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Around $8.33 a month. Cheaper than one therapy session if something goes wrong, cheaper than the time you'd spend reconstructing a conversation your kid won't fully repeat. One subscription covers every child in the family across iPhone, Mac and Windows. If after 60 days Halo hasn't shown you anything worth seeing, email us and we'll refund the year.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">02</span>
+          <span class="q">Isn't this the same as Bark or Qustodio?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">No. Bark and Qustodio scan text and apps. Apple Screen Time counts hours. None of them listen to voice chat — and voice is where most of the harmful conversations now happen. Halo is the only tool that hears what's being said in Roblox, Fortnite, Minecraft and Discord. Most parents run Halo alongside something like Bark, not instead of it.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">03</span>
+          <span class="q">Won't this just spam me with false alarms?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Fewer than 1% of sessions produce a flag. The default state of Halo's home screen is "all quiet" — that's by design. A flag only fires when the model is confident a moment matches a known harmful pattern: grooming language, threats, or asks for personal info or images. You can mark any flag as "this was fine" to teach the model your child's context.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">04</span>
+          <span class="q">Does my child know Halo is running?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">No. Halo runs in the background and doesn't appear on the home screen. There's no icon, no sound, and no notification on the child's device. They won't know it's there unless you tell them — and we recommend you do. Kids who know they have a backstop are safer than kids who think no one's listening.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">05</span>
+          <span class="q">Is voice chat actually being recorded?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">No. Halo processes audio on-device, in real time. When a session ends with no flags, nothing is kept. When a flag is created, only the seconds that triggered it are uploaded — never the whole session, never an entire day. Uninstall Halo and we delete everything within 24 hours.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">06</span>
+          <span class="q">What if Halo misses something serious?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">No tool catches everything, and we won't pretend otherwise. Halo is trained on grooming language, threats and asks for personal info or images — the patterns that lead to actual harm. We tune for fewer false alarms, not more. You can review every flag in the app, and the conversation with your kid is the real safety net. Halo is the early warning, not the whole net.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">07</span>
+          <span class="q">Will my kid find it and turn it off?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Halo is invisible to the kid on iPhone — no icon, no sound, no obvious app to delete. On Mac and Windows it runs in the background like any other system service. Settings sit on your parent device, not theirs. If your kid does manage to disable it, you'll get a notification immediately.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">08</span>
+          <span class="q">Does it work on Roblox? Even after their voice changes?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Yes. Halo joins voice chat as a passive listener — the same way your kid's friends do. Roblox, Fortnite, Minecraft are all live today. Voice chat in Roblox is restricted to verified users 13+ in some regions, but the in-game audio is still captured wherever your kid uses it.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">09</span>
+          <span class="q">Discord, FaceTime, WhatsApp voice — does it cover those?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Discord is live on Mac and Windows today. FaceTime, WhatsApp voice and other VoIP apps on iPhone are technically harder — iOS routes those audio streams privately and we won't fake coverage we can't deliver. The mic captures what the child says either way, which is the primary signal. We'll expand platforms when we can do them properly, not before.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">10</span>
+          <span class="q">Does Halo work on Android?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Not yet. We focused on iPhone, Mac and Windows first because the system audio APIs are more constrained and predictable. Android is on the roadmap but won't ship until we can match the same quality bar. Most families have at least one device Halo runs on today.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">11</span>
+          <span class="q">Will it slow down their games?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">No measurable impact on Mac, Windows, or modern iPhones (iPhone 12 and newer). Halo is a small on-device model running alongside the game, not a video call recorder. We tested with kids on actual hardware before shipping, and frame rate / latency stays unchanged.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">12</span>
+          <span class="q">What happens if I cancel?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Halo stops listening immediately and we delete every flag, every clip and every account record within 24 hours. No retention period, no "we'll keep this for analytics," no email funnel begging you back. If you want to come back later, you start fresh.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">13</span>
+          <span class="q">Should I tell my child Halo is running?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Yes. Halo is not a surveillance tool — it's a quiet net. Kids who know there's a backstop are demonstrably safer than kids who don't. The conversation we recommend is short: "If anything weird happens in voice chat, I'll know, and I'm here to help. You're not in trouble for any of it."</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">14</span>
+          <span class="q">What's the 60-day quiet guarantee?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">If you've had Halo for 60 days and it hasn't shown you anything worth your attention — no flags, no concerning moments, nothing your kid was doing that you needed to see — email us at hello@halosafe.app and we'll refund your full annual subscription. The whole point of Halo is peace of mind, not a charge that recurs whether you needed it or not.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 12 · CTA
+     ============================================================ -->
+<section class="section s-cta" id="cta" data-screen-label="14 CTA">
+  <div class="wrap">
+    <div class="s-cta-orb" aria-hidden="true"></div>
+    <h2>If something matters,<br/>you'll know.<br/><em>If it doesn't, you won't hear from us.</em></h2>
+    <p class="lede">That's the whole deal. Free for 14 days, no credit card. Cancel any time and we delete everything within 24 hours.</p>
+    <div class="s-cta-actions">
+      <a href="https://apps.apple.com/au/app/halo-safe/id6756702314" class="btn btn-primary">Start free 14-day trial<span class="arrow">→</span></a>
+      <a href="#privacy" class="btn btn-ghost">Read the privacy architecture</a>
+    </div>
+  </div>
+
+  <div class="hero-foot" style="bottom: 32px;">
+    <span>HS · GAMING SAFETY · 2026</span>
+    <span>halosafe.app</span>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-row">
+      <div class="brand">
+        <img src="assets/logo-white.svg" alt="Halo" />
+        <p class="tag">Quiet protection for kids on voice chat. Built by parents, for parents.</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#privacy">Privacy</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="mailto:hello@halosafe.app">Contact</a></li>
+          <li><a href="#">Press</a></li>
+          <li><a href="#">Brand</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy policy</a></li>
+          <li><a href="#">Terms</a></li>
+          <li><a href="#">Data handling</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-foot">
+      <span>© 2026 Halo Safe</span>
+      <span>HS · GAMING SAFETY · 2026</span>
+    </div>
+  </div>
+</footer>
+
+<!-- v2: sticky mobile CTA — only visible <720px after scroll past hero -->
+<div class="sticky-cta" id="stickyCta" style="display:none">
+  <div class="label">
+    <strong>14-day free trial</strong>
+    <span>No card · Cancel any time</span>
+  </div>
+  <a href="https://apps.apple.com/au/app/halo-safe/id6756702314" class="btn btn-primary">Start trial<span class="arrow">→</span></a>
+</div>
+
+<script>
+(function() {
+  var s = document.getElementById('stickyCta');
+  if (!s) return;
+  var hero = document.querySelector('.hero');
+  function tick() {
+    if (window.innerWidth > 720) { s.style.display = 'none'; document.body.classList.remove('has-sticky'); return; }
+    var heroBottom = hero ? hero.getBoundingClientRect().bottom : 0;
+    if (heroBottom < 0) {
+      s.style.display = 'flex';
+      document.body.classList.add('has-sticky');
+    } else {
+      s.style.display = 'none';
+      document.body.classList.remove('has-sticky');
+    }
+  }
+  tick();
+  window.addEventListener('scroll', tick, { passive: true });
+  window.addEventListener('resize', tick);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Halo deck v2 — conversion variant
+# noindex via X-Robots-Tag (in vercel.json), but AI agents allowed to fetch.
+User-agent: *
+Allow: /
+
+# Block major search engines explicitly (defence in depth)
+User-agent: Googlebot
+Disallow: /
+User-agent: Bingbot
+Disallow: /
+User-agent: DuckDuckBot
+Disallow: /
