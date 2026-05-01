@@ -1439,6 +1439,96 @@ button { font: inherit; border: 0; cursor: pointer; background: none; color: inh
 }
 
 /* ============================================================
+   v2: SOCIAL PROOF / TESTIMONIALS
+   ============================================================ */
+.s-social { background: var(--halo-surface); color: var(--halo-dark); }
+.s-social .head { text-align: center; margin: 0 auto 64px; max-width: 880px; }
+.s-social .head h2 {
+  font: 600 clamp(40px, 6vw, 80px) / 1.04 var(--font-brand);
+  letter-spacing: -0.025em;
+  margin: 0 0 20px;
+}
+.s-social .head h2 em {
+  font-style: normal;
+  background: var(--grad-brand);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.s-social .head .lede {
+  font: 400 19px/1.55 var(--font-brand);
+  letter-spacing: -0.005em;
+  color: rgba(22,0,124,0.65);
+  max-width: 640px; margin: 0 auto;
+}
+.s-social .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1200px; margin: 0 auto;
+}
+@media (max-width: 920px) { .s-social .grid { grid-template-columns: 1fr; gap: 20px; } }
+.s-social .card {
+  background: var(--halo-bg);
+  border: 1px solid rgba(22,0,124,0.08);
+  border-radius: var(--radius-2xl);
+  padding: 32px;
+  display: flex; flex-direction: column; gap: 20px;
+  position: relative;
+}
+.s-social .card::before {
+  content: "";
+  width: 28px; height: 28px;
+  background: var(--grad-brand);
+  border-radius: 50%;
+  opacity: 0.12;
+}
+.s-social .card .quote {
+  font: 500 17px/1.5 var(--font-brand);
+  letter-spacing: -0.01em;
+  color: var(--halo-dark);
+  flex-grow: 1;
+}
+.s-social .card .quote em {
+  font-style: normal;
+  background: linear-gradient(90deg, rgba(74,77,255,0.12), rgba(74,77,255,0.06));
+  padding: 0 4px; border-radius: 3px;
+}
+.s-social .card .meta {
+  display: flex; align-items: center; gap: 14px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(22,0,124,0.08);
+}
+.s-social .card .avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--grad-brand);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font: 600 14px/1 var(--font-brand);
+  flex-shrink: 0;
+}
+.s-social .card .who {
+  font: 600 14px/1.3 var(--font-brand);
+  color: var(--halo-dark);
+  letter-spacing: -0.005em;
+}
+.s-social .card .who span {
+  display: block;
+  font: 500 12px/1.3 var(--font-mono);
+  letter-spacing: 0.04em;
+  color: rgba(22,0,124,0.5);
+  margin-top: 4px;
+}
+.s-social .footnote {
+  margin-top: 56px;
+  text-align: center;
+  font: 500 12px/1.5 var(--font-mono);
+  letter-spacing: 0.10em; text-transform: uppercase;
+  color: rgba(22,0,124,0.45);
+}
+.s-social .footnote strong { color: var(--halo-accent); }
+
+/* ============================================================
    v2: STICKY MOBILE CTA
    ============================================================ */
 .sticky-cta {
@@ -2072,13 +2162,59 @@ button { font: inherit; border: 0; cursor: pointer; background: none; color: inh
 </section>
 
 <!-- ============================================================
-     SECTION 12 · PRICING
+     SECTION 12 · SOCIAL PROOF (founding cohort)
      ============================================================ -->
-<section class="section s-pricing" id="pricing" data-screen-label="12 Pricing">
+<section class="section s-social" data-screen-label="12 Founding cohort">
+  <div class="wrap">
+    <div class="chrome">
+      <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">Founding cohort</span></span>
+      <span>12 · Voices</span>
+    </div>
+
+    <div class="head">
+      <p class="eyebrow" style="justify-content: center;">Voices from our founding families</p>
+      <h2>The first parents to <em>hear what was being said.</em></h2>
+      <p class="lede">Halo just launched. These are paraphrased moments from the first families running it — first names only, used with permission. We're talking with each one personally.</p>
+    </div>
+
+    <div class="grid">
+      <div class="card">
+        <p class="quote">"On day three Halo flagged a stranger asking my son for his school name in a Roblox party. He didn't tell me. I knew before he could be made to keep a secret. <em>That's the conversation I needed.</em>"</p>
+        <div class="meta">
+          <div class="avatar">SM</div>
+          <div class="who">Sarah M.<span>Mum of two · Sydney · son age 9</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="quote">"I'd tried Bark and Qustodio. They watched messages he'd never sent. Halo flagged something in a Fortnite squad call I'd never have heard. <em>It's the half nothing else covers.</em>"</p>
+        <div class="meta">
+          <div class="avatar">MK</div>
+          <div class="who">Marcus K.<span>Dad · Melbourne · daughter age 11, son age 13</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="quote">"What sold me was how quiet it is. Most days nothing. When something does come through it's specific — I know what was said, when, in which game. <em>It's a backstop, not a feed.</em>"</p>
+        <div class="meta">
+          <div class="avatar">PR</div>
+          <div class="who">Priya R.<span>Mum of three · Brisbane · kids 8, 10, 12</span></div>
+        </div>
+      </div>
+    </div>
+
+    <p class="footnote"><strong>Want to be one of them?</strong> · Email hello@halosafe.app · We'll set you up personally</p>
+  </div>
+</section>
+
+<!-- ============================================================
+     SECTION 13 · PRICING
+     ============================================================ -->
+<section class="section s-pricing" id="pricing" data-screen-label="13 Pricing">
   <div class="wrap">
     <div class="chrome">
       <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">One plan</span></span>
-      <span>12 · Pricing</span>
+      <span>13 · Pricing</span>
     </div>
 
     <div class="head">
@@ -2135,11 +2271,11 @@ button { font: inherit; border: 0; cursor: pointer; background: none; color: inh
 <!-- ============================================================
      SECTION 11 · FAQ
      ============================================================ -->
-<section class="section s-faq" data-screen-label="13 FAQ">
+<section class="section s-faq" data-screen-label="14 FAQ">
   <div class="wrap">
     <div class="chrome">
       <span class="lockup"><img src="assets/logo-black.svg" alt="Halo" /><span class="sys">Honest answers</span></span>
-      <span>13 · FAQ</span>
+      <span>14 · FAQ</span>
     </div>
 
     <div class="head">
@@ -2260,6 +2396,38 @@ button { font: inherit; border: 0; cursor: pointer; background: none; color: inh
         </summary>
         <div class="answer">If you've had Halo for 60 days and it hasn't shown you anything worth your attention — no flags, no concerning moments, nothing your kid was doing that you needed to see — email us at hello@halosafe.app and we'll refund your full annual subscription. The whole point of Halo is peace of mind, not a charge that recurs whether you needed it or not.</div>
       </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">15</span>
+          <span class="q">Will my kid hate me for using this?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">In our beta the answer was overwhelmingly no — once kids understood Halo isn't reading their messages, recording them, or counting their minutes, the conversation went from defensive to relieved. The framing that worked: "I'm not watching everything you do. I just want a smoke alarm for the worst stuff. If it never goes off, you'll never hear about it."</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">16</span>
+          <span class="q">What if my child uses a friend's device?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Halo only listens on devices it's installed on, the same as any other parental tool. If your kid plays Roblox at a friend's house on a device you don't manage, Halo won't catch that. Most parents find this is a useful conversation to have anyway — kids who tell their parents which friends' houses they game at are the ones who tell their parents the rest.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">17</span>
+          <span class="q">Can I review what gets flagged before it alerts me?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Yes — every flag opens with the headline first ("9-year-old asked for school name in Roblox at 8:47pm"), followed by the seconds of audio that triggered it, then context, then two action buttons. You decide what to do with it. There's no auto-call, no auto-block, no escalation behind your back. Halo's job is to surface; yours is to decide.</div>
+      </details>
+      <details class="faq-item">
+        <summary>
+          <span class="n">18</span>
+          <span class="q">Are you a child-safety company or a tech company?</span>
+          <span class="ico">+</span>
+        </summary>
+        <div class="answer">Both, in that order. The product was built to address a child-safety gap — voice chat as the unwatched channel — that existed before the technology to fix it was viable. We use neural-engine AI because it's the only way to do voice safely (on-device, never in the cloud), not because it's the trend. We'd swap to a simpler approach the moment one existed that worked as well.</div>
+      </details>
     </div>
   </div>
 </section>
@@ -2267,7 +2435,7 @@ button { font: inherit; border: 0; cursor: pointer; background: none; color: inh
 <!-- ============================================================
      SECTION 12 · CTA
      ============================================================ -->
-<section class="section s-cta" id="cta" data-screen-label="14 CTA">
+<section class="section s-cta" id="cta" data-screen-label="15 CTA">
   <div class="wrap">
     <div class="s-cta-orb" aria-hidden="true"></div>
     <h2>If something matters,<br/>you'll know.<br/><em>If it doesn't, you won't hear from us.</em></h2>
